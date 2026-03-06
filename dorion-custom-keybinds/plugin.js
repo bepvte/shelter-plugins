@@ -154,13 +154,13 @@ function t(key, replace) {
 //#endregion
 //#region plugins/dorion-custom-keybinds/components/Keybinds.tsx.scss
 const classes$3 = {
-	"header": "Zz-Z3G_header",
-	"keybindsButton": "Zz-Z3G_keybindsButton",
 	"keybindRestartCard": "Zz-Z3G_keybindRestartCard",
-	"keybindSection": "Zz-Z3G_keybindSection",
+	"keybindRestartButton": "Zz-Z3G_keybindRestartButton",
+	"keybindsButton": "Zz-Z3G_keybindsButton",
 	"keybindsSwitch": "Zz-Z3G_keybindsSwitch",
 	"keybindsBanner": "Zz-Z3G_keybindsBanner",
-	"keybindRestartButton": "Zz-Z3G_keybindRestartButton",
+	"header": "Zz-Z3G_header",
+	"keybindSection": "Zz-Z3G_keybindSection",
 	"keybindsHeader": "Zz-Z3G_keybindsHeader"
 };
 const css$3 = `.Zz-Z3G_keybindSection {
@@ -230,12 +230,12 @@ const css$3 = `.Zz-Z3G_keybindSection {
 //#endregion
 //#region plugins/dorion-custom-keybinds/components/KeybindSection.tsx.scss
 const classes$2 = {
+	"keybindSection": "QTLdLq_keybindSection",
 	"removeButton": "QTLdLq_removeButton",
-	"keybindRoot": "QTLdLq_keybindRoot",
-	"keybindArea": "QTLdLq_keybindArea",
-	"actionSection": "QTLdLq_actionSection",
 	"note": "QTLdLq_note",
-	"keybindSection": "QTLdLq_keybindSection"
+	"keybindRoot": "QTLdLq_keybindRoot",
+	"actionSection": "QTLdLq_actionSection",
+	"keybindArea": "QTLdLq_keybindArea"
 };
 const css$2 = `.QTLdLq_keybindRoot {
   flex-direction: column;
@@ -292,9 +292,9 @@ const css$2 = `.QTLdLq_keybindRoot {
 //#endregion
 //#region components/Dropdown.tsx.scss
 const classes$1 = {
+	"dsarrow": "sqVpyW_dsarrow",
 	"ddown": "sqVpyW_ddown",
 	"ddownplaceholder": "sqVpyW_ddownplaceholder",
-	"dsarrow": "sqVpyW_dsarrow",
 	"dcontainer": "sqVpyW_dcontainer"
 };
 const css$1 = `.sqVpyW_ddown {
@@ -434,12 +434,12 @@ const Dropdown = (props) => {
 //#endregion
 //#region components/KeybindInput.tsx.scss
 const classes = {
-	"keybindInput": "N-HDcq_keybindInput",
+	"keybindButton": "N-HDcq_keybindButton",
+	"recording": "N-HDcq_recording",
+	"keybindPlaceholder": "N-HDcq_keybindPlaceholder",
 	"keybindContainer": "N-HDcq_keybindContainer",
 	"pulse": "N-HDcq_pulse",
-	"recording": "N-HDcq_recording",
-	"keybindButton": "N-HDcq_keybindButton",
-	"keybindPlaceholder": "N-HDcq_keybindPlaceholder"
+	"keybindInput": "N-HDcq_keybindInput"
 };
 const css = `.N-HDcq_keybindContainer {
   background: var(--background-base-lowest);
@@ -1134,10 +1134,10 @@ const viewedKeybindsCallback = (payload) => {
 		}
 		return;
 	}
-	const unsub = observeDom("[data-debug-key=\"keybinds_setting\"], [data-debug-key=\"keybinds_category\"]", () => {
-		unsub();
+	const el = document.querySelector("[data-nav-anchor-key=\"keybinds_setting\"]");
+	if (el) {
 		if (child?.isConnected) return;
-		const browserNotice = document.querySelector("[data-debug-key=\"keybinds_setting\"] [class*=\"browserNotice\"]");
+		const browserNotice = el.querySelector("[class*=\"browserNotice\"]");
 		if (!browserNotice) return;
 		const owner = shelter.util.getFiberOwner(browserNotice);
 		const keybindsArea = browserNotice.parentElement;
@@ -1145,8 +1145,6 @@ const viewedKeybindsCallback = (payload) => {
 		browserNotice.style.display = "none";
 		const keybindsContainer = keybindsArea.parentElement?.parentElement;
 		if (!keybindsContainer) return;
-		const divider = keybindsContainer.querySelector(":scope > div[class*=\"divider\"]");
-		if (divider) divider.style.display = "none";
 		const defaultKeybinds = keybindsContainer.querySelector("fieldset")?.parentElement;
 		if (defaultKeybinds) defaultKeybinds.style.marginTop = "0";
 		child = keybindsArea.appendChild((0, import_web.createComponent)(ReactiveRoot, { get children() {
@@ -1159,7 +1157,7 @@ const viewedKeybindsCallback = (payload) => {
 				}
 			});
 		} }));
-	});
+	}
 };
 const trackSettingsViewedCallback = (payload) => {
 	if (payload.event !== "settings_pane_viewed") return;
